@@ -4,6 +4,7 @@ import co.com.sofka.cargame.SocketController;
 import co.com.sofka.infraestructure.bus.serialize.SuccessNotificationSerializer;
 import io.nats.client.Dispatcher;
 import io.nats.client.Nats;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.Optional;

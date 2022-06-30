@@ -30,7 +30,10 @@ public class JuegoConfig {
     }
 
     @Bean
-    public EventSubscriber eventSubscriber(@Value("${spring.nats.uri}") String uri, EventListenerSubscriber eventListenerSubscriber, SocketController socketController) throws IOException, InterruptedException {
+    public EventSubscriber eventSubscriber(@Value("${spring.nats.uri}") String uri,
+                                           EventListenerSubscriber eventListenerSubscriber,
+                                           SocketController socketController) throws IOException, InterruptedException {
+
         var eventSubs = new NATSEventSubscriber(uri, eventListenerSubscriber, socketController);
         eventSubs.subscribe("juego.>", "handles.juego");
         eventSubs.subscribe("carro.>", "handles.carro");
