@@ -27,6 +27,13 @@ public class CarroQueryService implements CarroService {
                 .getCedula().getUuid();
     }
 
+    @Override
+    public String getNombreConductorPorId(CarroId carroId) {
+        var query = new Query(where("aggregateRootId").is(carroId.value()));
+        return Objects.requireNonNull(mongoTemplate.findOne(query, CarroRecord.class, "carro.ConductorAsignado"))
+                .getNombre();
+    }
+
     public static class CarroRecord {
         private String nombre;
         private Cedula cedula;

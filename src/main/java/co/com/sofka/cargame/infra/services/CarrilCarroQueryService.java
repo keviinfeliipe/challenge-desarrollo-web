@@ -17,8 +17,8 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Service
 public class CarrilCarroQueryService implements CarrilCarroService {
-    private final MongoTemplate mongoTemplate;
 
+    private final MongoTemplate mongoTemplate;
 
     @Autowired
     public CarrilCarroQueryService(MongoTemplate mongoTemplate) {

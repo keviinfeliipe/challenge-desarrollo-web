@@ -5,20 +5,22 @@ import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.cargame.domain.juego.command.CrearJuegoCommand;
 import co.com.sofka.cargame.domain.juego.command.InicarJuegoCommand;
+import co.com.sofka.cargame.infra.services.*;
 import co.com.sofka.cargame.usecase.CrearJuegoUseCase;
 import co.com.sofka.cargame.usecase.InicarJuegoUseCase;
+import co.com.sofka.cargame.usecase.model.InformacionDeJuego;
+import co.com.sofka.cargame.usecase.model.Score;
 import co.com.sofka.domain.generic.DomainEvent;
 import co.com.sofka.infraestructure.asyn.SubscriberEvent;
 import co.com.sofka.infraestructure.repository.EventStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class JuegoController {
+
     @Autowired
     private SubscriberEvent subscriberEvent;
     @Autowired
@@ -27,6 +29,10 @@ public class JuegoController {
     private CrearJuegoUseCase crearJuegoUseCase;
     @Autowired
     private InicarJuegoUseCase inicarJuegoUseCase;
+    @Autowired
+    private ScoreQueryService scoreQueryService;
+    @Autowired
+    private InformacionDeJuegoQueryService idQueryService;
 
     @PostMapping("/crearJuego")
     public String crearJuego(@RequestBody CrearJuegoCommand command) {
@@ -45,6 +51,16 @@ public class JuegoController {
                 .asyncExecutor(inicarJuegoUseCase, new RequestCommand<>(command))
                 .subscribe(subscriberEvent);
         return command.getJuegoId();
+    }
+
+    @GetMapping("/score")
+    public List<Score> obtener(){
+        return scoreQueryService.getScoreGame();
+    }
+
+    @GetMapping("/ids")
+    public List<InformacionDeJuego> obtenerIds(){
+        return idQueryService.obtenerId();
     }
 
 
