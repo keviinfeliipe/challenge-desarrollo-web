@@ -4,6 +4,6 @@ import co.com.sofka.cargame.usecase.model.InformacionDeJuego;
 
 import java.util.List;
 
-public interface IdService {
-    List<InformacionDeJuego> obtenerId();
+public interface InformacionDeJuegoService {
+    List<InformacionDeJuego> obtenerInformacionDeJuego();
 }

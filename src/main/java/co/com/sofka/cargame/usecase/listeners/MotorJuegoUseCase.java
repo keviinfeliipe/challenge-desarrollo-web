@@ -13,6 +13,7 @@ import co.com.sofka.cargame.usecase.services.MoverCarroService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class MotorJuegoUseCase extends UseCase<TriggeredEvent<JuegoIniciado>, ResponseEvents> {
@@ -45,7 +46,8 @@ public class MotorJuegoUseCase extends UseCase<TriggeredEvent<JuegoIniciado>, Re
 
     private void esperar4Segundos() {
         try {
-            Thread.sleep(4000);
+            var rn = new Random();
+            Thread.sleep(((1 + rn.nextInt(5))*1000));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

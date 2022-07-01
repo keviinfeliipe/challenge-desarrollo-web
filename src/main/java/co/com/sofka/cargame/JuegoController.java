@@ -8,7 +8,6 @@ import co.com.sofka.cargame.domain.juego.command.InicarJuegoCommand;
 import co.com.sofka.cargame.infra.services.*;
 import co.com.sofka.cargame.usecase.CrearJuegoUseCase;
 import co.com.sofka.cargame.usecase.InicarJuegoUseCase;
-import co.com.sofka.cargame.usecase.model.InformacionDeJuego;
 import co.com.sofka.cargame.usecase.model.Score;
 import co.com.sofka.domain.generic.DomainEvent;
 import co.com.sofka.infraestructure.asyn.SubscriberEvent;
@@ -16,7 +15,9 @@ import co.com.sofka.infraestructure.repository.EventStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class JuegoController {
@@ -31,8 +32,6 @@ public class JuegoController {
     private InicarJuegoUseCase inicarJuegoUseCase;
     @Autowired
     private ScoreQueryService scoreQueryService;
-    @Autowired
-    private InformacionDeJuegoQueryService idQueryService;
 
     @PostMapping("/crearJuego")
     public String crearJuego(@RequestBody CrearJuegoCommand command) {
@@ -55,14 +54,12 @@ public class JuegoController {
 
     @GetMapping("/score")
     public List<Score> obtener(){
-        return scoreQueryService.getScoreGame();
+        return scoreQueryService
+                .getScoreGame()
+                .stream()
+                .sorted(Comparator.comparing(Score::getTiempoRecorrido))
+                .collect(Collectors.toList());
     }
-
-    @GetMapping("/ids")
-    public List<InformacionDeJuego> obtenerIds(){
-        return idQueryService.obtenerId();
-    }
-
 
     private DomainEventRepository domainEventRepository() {
         return new DomainEventRepository() {

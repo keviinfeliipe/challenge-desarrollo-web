@@ -12,6 +12,8 @@ public class Score {
     private String distanciaJuego;
     private String tiempoRecorrido;
 
+
+
     public Score() {
     }
 
@@ -32,7 +34,19 @@ public class Score {
         long difference_In_Seconds = (difference_In_Time / 1000) % 60;
         long difference_In_Minutes = (difference_In_Time / (1000 * 60)) % 60;
         long difference_In_Hours = (difference_In_Time / (1000 * 60 * 60)) % 24;
-        return String.valueOf(difference_In_Hours)+":"+String.valueOf(difference_In_Minutes)+":"+String.valueOf(difference_In_Seconds);
+        return convert(difference_In_Hours)+":"+convert(difference_In_Minutes)+":"+convert(difference_In_Seconds);
+    }
+
+    public String getTiempoRecorrido() {
+        return tiempoRecorrido;
+    }
+
+    public void setTiempoRecorrido(String tiempoRecorrido) {
+        this.tiempoRecorrido = tiempoRecorrido;
+    }
+
+    public String convert(Long aLong){
+        return String.format("%02d",aLong);
     }
 
     public String getJuegoId() {

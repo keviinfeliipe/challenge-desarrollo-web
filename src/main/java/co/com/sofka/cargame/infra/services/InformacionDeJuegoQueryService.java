@@ -1,7 +1,7 @@
 package co.com.sofka.cargame.infra.services;
 
 import co.com.sofka.cargame.usecase.model.InformacionDeJuego;
-import co.com.sofka.cargame.usecase.services.IdService;
+import co.com.sofka.cargame.usecase.services.InformacionDeJuegoService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class InformacionDeJuegoQueryService implements IdService {
+public class InformacionDeJuegoQueryService implements InformacionDeJuegoService {
 
     private final MongoTemplate mongoTemplate;
 
@@ -23,7 +23,7 @@ public class InformacionDeJuegoQueryService implements IdService {
     }
 
     @Override
-    public List<InformacionDeJuego> obtenerId() {
+    public List<InformacionDeJuego> obtenerInformacionDeJuego() {
         var lookup = LookupOperation.newLookup()
                 .from("carril.CarroAgregadoACarrail")
                 .localField("aggregateRootId")
