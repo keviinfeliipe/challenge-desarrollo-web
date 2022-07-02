@@ -34,13 +34,12 @@ public class ScoreQueryService implements ScoreService {
     }
 
     @Override
-    public List<Score> getScoreGame() {
+    public List<Score> getScoreGame(JuegoId juegoId) {
         List<Score> scores = new ArrayList<>();
         idQueryService
-                .obtenerInformacionDeJuego()
+                .obtenerInformacionDeJuego(juegoId)
                 .forEach(id -> {
                     var carroId = CarroId.of(id.getCarroId());
-                    var juegoId = JuegoId.of(id.getJuegoId());
                     var carrilId = CarrilId.of(id.getCarrilId());
                     var fechaInicio = carroDesplazadoService
                             .obtenerTiempoDeDesplazamiento(carrilId)

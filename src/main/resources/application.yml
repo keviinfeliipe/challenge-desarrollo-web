@@ -7,7 +7,6 @@ spring:
   data:
     mongodb:
       uri: ${MONGO_URI:mongodb://localhost:27017/cargame}
-  nats:
-    uri: ${NATS_URI:nats://localhost:4222}
-  bus:
-    uri: ${BUS_URI:amqp://guest:guest@localhost:5672}
+      #uri: ${MONGO_URI:mongodb+srv://sofka:sofka@cluster0.s0ihhvr.mongodb.net/cargameretryWrites=true&w=majority}
+  rabbitmq:
+    addresses: ${BUS_URI:amqps://qqtbnckp:uRNluVYL_k1lp_B9HfY966hbnqgCKi2B@jackal.rmq.cloudamqp.com/qqtbnckp}

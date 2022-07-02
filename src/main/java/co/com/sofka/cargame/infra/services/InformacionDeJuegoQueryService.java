@@ -1,5 +1,6 @@
 package co.com.sofka.cargame.infra.services;
 
+import co.com.sofka.cargame.domain.juego.values.JuegoId;
 import co.com.sofka.cargame.usecase.model.InformacionDeJuego;
 import co.com.sofka.cargame.usecase.services.InformacionDeJuegoService;
 import com.google.gson.Gson;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
 @Service
 public class InformacionDeJuegoQueryService implements InformacionDeJuegoService {
 
@@ -23,14 +26,16 @@ public class InformacionDeJuegoQueryService implements InformacionDeJuegoService
     }
 
     @Override
-    public List<InformacionDeJuego> obtenerInformacionDeJuego() {
+    public List<InformacionDeJuego> obtenerInformacionDeJuego(JuegoId juegoId) {
         var lookup = LookupOperation.newLookup()
                 .from("carril.CarroAgregadoACarrail")
                 .localField("aggregateRootId")
                 .foreignField("aggregateRootId")
                 .as("carroAgregadoACarrail");
 
-        var aggregation = Aggregation.newAggregation(lookup);
+        var aggregation = Aggregation.newAggregation(
+                lookup,
+                Aggregation.match(where("juegoId.uuid").is(juegoId.value())));
 
         var tempo = mongoTemplate.aggregate(aggregation, "carril.CarrilCreado", String.class)
                 .getMappedResults().stream().collect(Collectors.toList());

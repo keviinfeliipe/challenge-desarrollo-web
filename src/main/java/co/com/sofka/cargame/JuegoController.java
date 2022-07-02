@@ -5,6 +5,7 @@ import co.com.sofka.business.repository.DomainEventRepository;
 import co.com.sofka.business.support.RequestCommand;
 import co.com.sofka.cargame.domain.juego.command.CrearJuegoCommand;
 import co.com.sofka.cargame.domain.juego.command.InicarJuegoCommand;
+import co.com.sofka.cargame.domain.juego.values.JuegoId;
 import co.com.sofka.cargame.infra.services.*;
 import co.com.sofka.cargame.usecase.CrearJuegoUseCase;
 import co.com.sofka.cargame.usecase.InicarJuegoUseCase;
@@ -52,10 +53,10 @@ public class JuegoController {
         return command.getJuegoId();
     }
 
-    @GetMapping("/score")
-    public List<Score> obtener(){
+    @GetMapping("/score/{id}")
+    public List<Score> obtenerScore(@PathVariable String id){
         return scoreQueryService
-                .getScoreGame()
+                .getScoreGame(JuegoId.of(id))
                 .stream()
                 .sorted(Comparator.comparing(Score::getTiempoRecorrido))
                 .collect(Collectors.toList());
