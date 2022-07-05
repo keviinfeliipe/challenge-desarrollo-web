@@ -6,7 +6,9 @@ spring:
     name: cargame
   data:
     mongodb:
-      uri: ${MONGO_URI:mongodb://localhost:27017/cargame}
-      #uri: ${MONGO_URI:mongodb+srv://sofka:sofka@cluster0.s0ihhvr.mongodb.net/cargameretryWrites=true&w=majority}
+      #uri: ${MONGO_URI:mongodb://localhost:27017/cargame}
+      uri: ${MONGO_URI:mongodb+srv://sofka:sofka@sofka.58bqo.mongodb.net/cargame?authSource=admin&compressors=zlib&retryWrites=true&w=majority&ssl=true}
   rabbitmq:
     addresses: ${BUS_URI:amqps://qqtbnckp:uRNluVYL_k1lp_B9HfY966hbnqgCKi2B@jackal.rmq.cloudamqp.com/qqtbnckp}
+
+

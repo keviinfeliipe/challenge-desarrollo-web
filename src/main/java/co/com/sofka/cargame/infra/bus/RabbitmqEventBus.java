@@ -32,7 +32,7 @@ public class RabbitmqEventBus implements EventBus {
     private final MongoTemplate mongoTemplate;
 
     @Autowired
-    public RabbitmqEventBus(RabbitTemplate rabbitTemplate, MongoTemplate mongoTemplate) throws IOException, InterruptedException{
+    public RabbitmqEventBus(RabbitTemplate rabbitTemplate, MongoTemplate mongoTemplate){
         this.mongoTemplate = mongoTemplate;
         this.rabbitTemplate = rabbitTemplate;
     }
@@ -58,7 +58,6 @@ public class RabbitmqEventBus implements EventBus {
     public void publishToTopic(String topic, ErrorEvent errorEvent) {
         var notification = ErrorNotification.wrapEvent(ORIGIN, errorEvent);
         var notificationSerialization = ErrorNotificationSerializer.instance().serialize(notification);
-        //rabbitAdmin.declareExchange(new TopicExchange(EXCHANGE));
         rabbitTemplate.convertAndSend(EXCHANGE, errorEvent.identify, notificationSerialization.getBytes());
         logger.warning("###### Error Event published to " + topic);
     }

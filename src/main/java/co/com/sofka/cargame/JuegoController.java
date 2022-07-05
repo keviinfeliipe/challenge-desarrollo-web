@@ -13,7 +13,6 @@ import co.com.sofka.cargame.usecase.model.Score;
 import co.com.sofka.domain.generic.DomainEvent;
 import co.com.sofka.infraestructure.asyn.SubscriberEvent;
 import co.com.sofka.infraestructure.repository.EventStoreRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -23,16 +22,19 @@ import java.util.stream.Collectors;
 @RestController
 public class JuegoController {
 
-    @Autowired
     private SubscriberEvent subscriberEvent;
-    @Autowired
     private EventStoreRepository eventStoreRepository;
-    @Autowired
     private CrearJuegoUseCase crearJuegoUseCase;
-    @Autowired
     private InicarJuegoUseCase inicarJuegoUseCase;
-    @Autowired
     private ScoreQueryService scoreQueryService;
+
+    public JuegoController(SubscriberEvent subscriberEvent, EventStoreRepository eventStoreRepository, CrearJuegoUseCase crearJuegoUseCase, InicarJuegoUseCase inicarJuegoUseCase, ScoreQueryService scoreQueryService) {
+        this.subscriberEvent = subscriberEvent;
+        this.eventStoreRepository = eventStoreRepository;
+        this.crearJuegoUseCase = crearJuegoUseCase;
+        this.inicarJuegoUseCase = inicarJuegoUseCase;
+        this.scoreQueryService = scoreQueryService;
+    }
 
     @PostMapping("/crearJuego")
     public String crearJuego(@RequestBody CrearJuegoCommand command) {
